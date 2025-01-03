@@ -73,25 +73,23 @@ const CertificateTable: React.FC = () => {
             <th className="px-4 py-2 text-left">Name</th>
             <th className="px-4 py-2 text-left">Price</th>
             <th className="px-4 py-2 text-left">Created At</th>
-            <th className="px-4 py-2 text-left">Updated At</th>
           </tr>
         </thead>
         <tbody>
           {Array.isArray(certificados) && certificados.length > 0 ? (
-            certificados.map((cert) => (
+            certificados.map((cert, index) => (
               <tr key={cert.id}>
-                <td className="px-4 py-2">{cert?.id}</td>
+                <td className="px-4 py-2">{index + 1}</td>
                 <td className="px-4 py-2">{cert?.certificate_number ?? 'N/A'}</td>
                 <td className="px-4 py-2">{cert?.abbreviations}</td>
                 <td className="px-4 py-2">{cert?.name}</td>
                 <td className="px-4 py-2">${parseFloat(cert?.price || '0').toFixed(2)}</td>
                 <td className="px-4 py-2">{new Date(cert?.createdAt).toLocaleString()}</td>
-                <td className="px-4 py-2">{new Date(cert?.updatedAt).toLocaleString()}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={7} className="border p-2 text-center text-gray-500">No hay certificados para este mes</td>
+              <td colSpan={6} className="border p-2 text-center text-gray-500">No hay certificados para este mes</td>
             </tr>
           )}
         </tbody>

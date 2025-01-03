@@ -17,6 +17,7 @@ interface Certificate {
 interface CertResponse {
   certificates: Certificate[];
   total: number;
+  message: string;
 }
 
 export class CertServices {
@@ -26,6 +27,28 @@ export class CertServices {
     this.axiosInstance = axios.create({
       baseURL: API_URL,
     });
+  }
+  
+  async new(formData: FormData): Promise<CertResponse> {
+    try {
+      const name = formData.get('name')
+
+      // Hacer la solicitud a la API
+      const response = await this.axiosInstance.post<CertResponse>(`${API_URL}/api/certificates/new`, { name });
+      console.log(response.data);
+      return response.data;
+
+    } catch (error: any) {
+      // Manejar el error
+      if (axios.isAxiosError(error) && error.response) {
+        // Si el error proviene de una respuesta de la API
+        const message = error.response.data?.message || 'Error desconocido';
+        throw new Error(message);
+      } else {
+        // Manejar cualquier otro tipo de error
+        throw new Error('Error al realizar la solicitud');
+      }
+    }
   }
 
   // Definir el tipo de `pagina` como número

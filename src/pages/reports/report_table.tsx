@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
+import Flag from "../../components/utils/images";
 
 const formatDate = (date: string | null): string => {
   if (!date) return "N/A";
@@ -34,12 +36,13 @@ interface Report {
 }
 
 interface Ship {
-  flag: string | null;
+  flag: Country;
   id: string | null;
   imo: string | null;
   name: string | null;
   type: string | null;
 }
+type Country = 'panama' | 'honduras' | 'belize';
 
 interface Range {
   startDate: string | null;
@@ -177,12 +180,12 @@ const FilteredReports: React.FC = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-2">ID</th>
+              <th className="border p-2"></th>
               <th className="border p-2">Name</th>
               <th className="border p-2">IMO</th>
               <th className="border p-2">Certificate</th>
               <th className="border p-2">Certificate Number</th>
               <th className="border p-2">Type</th>
-              <th className="border p-2">Flag</th>
               <th className="border p-2">Date Issuance</th>
               <th className="border p-2">Date Expire</th>
               <th className="border p-2">Price</th>
@@ -192,12 +195,12 @@ const FilteredReports: React.FC = () => {
             {filteredReports.map((report, index) => (
               <tr key={report?.id} className="hover:bg-gray-50">
                 <td className="border p-2">{index}</td>
+                <td className="border p-2"><Flag className='w-6 h-4' country={report?.ship?.flag} /></td>
                 <td className="border p-2">{report?.name}</td>
                 <td className="border p-2">{report?.imo}</td>
                 <td className="border p-2">{report?.certificate}</td>
                 <td className="border p-2">{report?.certificateNumber}</td>
                 <td className="border p-2">{report?.type}</td>
-                <td className="border p-2">{report?.flag}</td>
                 <td className="border p-2">{formatDate(report?.dateIssuance)}</td>
                 <td className="border p-2">{formatDate(report?.dateExpire)}</td>
                 <td className="border p-2">${report?.price?.toLocaleString()}</td>
